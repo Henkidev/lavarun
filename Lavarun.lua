@@ -99,13 +99,7 @@ function tran(n, id)
 end
 
 mapIndx = math.random(#maps)
-function module(name)
-    if players[name] then
-        tfm.exec.setPlayerScore(name,players[name].score)
-    end
-    tfm.exec.newGame(maps[mapIndx].map)
-end
-module(name)
+tfm.exec.newGame(maps[mapIndx].map)
 
 lava_start = 0
 lavay = 407
@@ -206,6 +200,8 @@ function eventKeyboard(name,key,down,x,y)
                 tfm.exec.setPlayerScore(name,players[name].score)
             end
         end
+    elseif key == 40 then
+        tfm.exec.addShamanObject(24,x,y+12,45,50,-20,false)
     end
 end
 
@@ -250,7 +246,7 @@ function eventChatCommand(name,command)
         end
     end
     if command == "menu" then
-        for _,remove_ui in next,{7,8,9} do
+        for _,remove_ui in next,{5,6,7,8,9} do
             ui.removeTextArea(remove_ui,name)
         end
         ui.addImage(1,"174556d8c59.png",":1",239,15,name) -- phone image
@@ -267,6 +263,7 @@ function eventChatCommand(name,command)
         end
     elseif command == "profile" then
         community = string.upper(tfm.get.room.playerList[name].community)
+        ui.removeTextArea(0,name)
         ui.addImage(1,"1745db5868e.png",":1",195,11,name)
         ui.addTextArea(1, tran(name,"died"), name, 254, 132, 132, 28, 0x152d30, 0x152d30, 1, true)
         ui.addTextArea(2, tran(name,"wins"), name, 255, 194, 132, 28, 0x152d30, 0x152d30, 1, true)
