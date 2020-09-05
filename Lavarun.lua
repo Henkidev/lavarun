@@ -206,8 +206,6 @@ function eventKeyboard(name,key,down,x,y)
                 tfm.exec.setPlayerScore(name,players[name].score)
             end
         end
-    elseif key == 40 then
-        tfm.exec.addShamanObject(24,x,y+12,45,50,-20,false)
     end
 end
 
