@@ -54,6 +54,7 @@ admins = {["Aron#6810"] = true , ["Aronmaps#5892"] = true}
 mapper = {[""] = true}
 players = {}
 Sentences = {"<fc>[Lavarun] : </fc><j> write !menu to open the menu !","<fc>[Lavarun] : </fc><j> You can write !points to see your points !","<fc>[Lavarun] : </fc><j> You can use flying power when you have 10 points"}
+date = false
 lava = false
 local mapIndex = 0
 local images = {}
@@ -108,6 +109,11 @@ killzone = 434
 function eventLoop(past,left)
     star_lava = star_lava + 1
     if star_lava == 5 then
+        for name , player in next, tfm.get.room.playerList do
+            if player.isDead then
+                tfm.exec.respawnPlayer(name)
+            end
+        end
         lava = true
     end
     if left < 1000 then
