@@ -1,4 +1,5 @@
-for _,module_settings in next,{"disableAutoShaman","disableAfkDeath","disableAutoScore","disableAutoNewGame"} do
+local a={}a.__index=a;a._timers={}setmetatable(a,{__call=function(b,...)return b.new(...)end})function a.process()local c=os.time()local d={}for e,f in next,a._timers do if f.isAlive and f.mature<=c then f:call()if f.loop then f:reset()else f:kill()d[#d+1]=e end end end;for e,f in next,d do a._timers[f]=nil end end;function a.new(g,h,i,j,...)local self=setmetatable({},a)self.id=g;self.callback=h;self.timeout=i;self.isAlive=true;self.mature=os.time()+i;self.loop=j;self.args={...}a._timers[g]=self;return self end;function a:setCallback(k)self.callback=k end;function a:addTime(c)self.mature=self.mature+c end;function a:setLoop(j)self.loop=j end;function a:setArgs(...)self.args={...}end;function a:call()self.callback(table.unpack(self.args))end;function a:kill()self.isAlive=false end;function a:reset()self.mature=os.time()+self.timeout end;Timer=a
+for _,module_settings in next,{"disableAutoShaman","disableAfkDeath","disableAutoScore"} do
     tfm.exec[module_settings](true)
 end
 maps = {
@@ -50,11 +51,12 @@ translation = {
         close_button = "<a href='event:closeprofile'><p align='center'><font size='16'><r><b> [اغلاق]",
     }
 }
-admins = {["Aron#6810"] = true}
+admins = {["Aron#6810"] = true , ["Aronmaps#5892"] = true}
 mapper = {[""] = true}
 players = {}
 Sentences = {"<fc>[Lavarun] : </fc><j> write !menu to open the menu !","<fc>[Lavarun] : </fc><j> You can write !points to see your points !","<fc>[Lavarun] : </fc><j> You can use flying power when you have 10 points"}
 date = false
+lava = false
 local mapIndex = 0
 local images = {}
 function ui.addImage(id, imageName, target, x, y, playerTarget)
@@ -102,24 +104,26 @@ end
 mapIndx = math.random(#maps)
 tfm.exec.newGame(maps[mapIndx].map)
 
-lava_start = 0
+star_lava = 0
 lavay = 407
 killzone = 434
 function eventLoop(past,left)
-    lavay = lavay - 4
-    lava_start = lava_start + 1
-    killzone = killzone - 4
-    if left <= 0 then
-        lava_start = 0
-        lavay = 407
-        killzone = 434
+    star_lava = star_lava + 1
+    if star_lava == 5 then
+        lava = true
+    end
+    if left < 1000 then
         mapIndx = math.random(#maps)
         tfm.exec.newGame(maps[mapIndx].map)
     end
-    ui.addImage(2,"1727b68eeb9.png","!1",-390,lavay,nil)
-    for n, p in pairs(tfm.get.room.playerList) do
-        if  p.y > killzone  then
-            tfm.exec.killPlayer(n)
+    if lava == true then
+        lavay = lavay - 4
+        killzone = killzone - 4
+        ui.addImage(2,"1727b68eeb9.png","!1",-390,lavay,nil)
+        for n, p in pairs(tfm.get.room.playerList) do
+            if  p.y > killzone  then
+                tfm.exec.killPlayer(n)
+            end
         end
     end
     if date == true then
@@ -129,7 +133,6 @@ end
 
 rounds = 0
 function eventNewGame()
-    lava_start = 0
     lavay = 407
     killzone = 434
     rounds = rounds + 1
@@ -138,8 +141,8 @@ function eventNewGame()
         tfm.exec.chatMessage(Sentences[math.random(#Sentences)])
     end
     for name, player in next, players do
-        players[name].hasMeep = false
-    end
+		players[name].hasMeep = false
+	end
     local author = tfm.get.room.xmlMapInfo.author
     local mapCode = tfm.get.room.xmlMapInfo.mapCode
     tfm.exec.setUIMapName(""..author.." - "..mapCode.. "<g> | </g> " .. "<n>Difficulty :</n>" .. " " .. maps[mapIndx].difficulty .. "<g> | </g> " .. "<n>Category : " .. " " .. maps[mapIndx].category)
@@ -371,6 +374,7 @@ function eventTextAreaCallback(id,name,callback)
         for _,desc_page2 in next,{7,8,1} do
             ui.removeTextArea(desc_page2,name)
         end
+        ui.removeTextArea(9,name)
         ui.addImage(1,"17455cde0b8.png",":1",143,65,name) -- page3 image_powers
         ui.addTextArea(3, "<font size='11'><b> You need </font><font size='11' color='#A900DF'>40 points </font> to use this powers !", name, 262, 209, 360, 28, 0x000000, 0x000000, 1, true)
         ui.addTextArea(4, "<p align='center'><font size='17'><b> Powers shop", name, 321, 88, 148, 28, 0x000000, 0x000000, 1, true)
