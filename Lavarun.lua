@@ -30,7 +30,7 @@ maps = {
 }
 translation = {
     en = {
-        help = "<p align='center'><font size='19'>In this module <b><fc>#LavaRun</fc></b> you must becareful of the lava that <b><fc>ascends</fc></b>, you should get the <b><fc> cheese</fc></b> and <b><fc>win</fc></b> as soon as possible and never give a chance to the <b><fc>lava</fc></b> to approach you. type <b><fc>!commands</fc></b> to see all commands in the module , <b><r> [Warning] : </r></b><n>  Please turn on the FULLSCREEN to see the whole of the maps!</n>\n",
+        help = "<p align='center'><font size='19'>In this module <b><fc>#LavaRun</fc></b> you must becareful of the lava that <b><fc>ascends</fc></b>, you should get the <b><fc> cheese</fc></b> and <b><fc>win</fc></b> as soon as possible and never give a chance to the <b><fc>lava</fc></b> to approach you. type <b><fc>!menu</fc></b> to open your private menu , <b><r> [Warning] : </r></b><n>  Please turn on the FULLSCREEN to see the whole of the maps!</n>\n",
         commands_part1 = "<p align='center'><font size='19'><fc><b>#Lavarun commands</b></font></p>\n<p align='left'><font size='19'><fc> !menu\n\n!profile\n\n!points\n\n!staff",
         commands_part2 = "<font size='15'> to open the menu\n\nto open your profile\n\nto see your points\n\nto see the staff list of lavarun",
         other = "<n>It's time to</n> <fc>fly!</fc><n> , you must press Down Arrow to shoot </n><fc>Cannons</fc><n> to reach the cheese on the other side</n>",
@@ -40,7 +40,7 @@ translation = {
         close_button = "<a href='event:closeprofile'><p align='center'><font size='16'><r><b> [Close]",
     },
     ar = {
-        help = "<p align='center'><font size='19'> في هذا النمط يجب عليك الحذر من اللاافا  التي تصعد ويجب عليك التقاط الجبن والفوز في اقرب وقت ممكن وعدم منح اللاافا فرصة التقرب منك اكتب ايعاز \n <b><fc>!commands </b></fc> \n لرؤية الايعازات الموجودة في النمط",
+        help = "<p align='center'><font size='19'> في هذا النمط يجب عليك الحذر من اللاافا  التي تصعد ويجب عليك التقاط الجبن والفوز في اقرب وقت ممكن وعدم منح اللاافا فرصة التقرب منك اكتب ايعاز \n <b><fc>!menu </b></fc> \n لفتح القائمة الخاصة بك !",
         commands_part1 = "<p align='center'><font size='19'><fc><b>#Lavarun commands</b></font></p>\n<p align='left'><font size='19'><fc> !menu\n\n!profile\n\n!points\n\n!staff",
         commands_part2 = "<font size='15'> لفتح القائمة\n\nلفتح بروفايلك الشخصي / او بروفايل شخص ما\n\nللحصول على العدد الإجمالي لنقاطك\n\nلرؤية اسماء مدراء ومشرفين النمط",
         other = "<n> حان وقت </n><fc>الطيران</fc>\n<n> إضغط على الزر السفلي لإطلاق </n><fc>الكرات</fc><n>\n للوصول الى الجبن من الجهة الأخرى</n>",
@@ -126,7 +126,9 @@ function eventLoop(past,left)
         end
     end
     if date == true then
-        ui.addTextArea(9, "<font size='43'><b>" .. os.date("%H") .. ":" .. os.date("%M"), name, 308, 116, 147, 89, 0x000000, 0x000000, 1, true)
+        for name , player in next, tfm.get.room.playerList do
+            ui.addTextArea(9, "<font size='43'><b>" .. os.date("%H") .. ":" .. os.date("%M"), name, 308, 116, 147, 89, 0x000000, 0x000000, 1, true)
+        end
     end
 end
 
