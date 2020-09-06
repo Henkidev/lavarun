@@ -109,6 +109,7 @@ killzone = 434
 function eventLoop(past,left)
     star_lava = star_lava + 1
     if star_lava == 5 then
+        lava_start = 0
         for name , player in next, tfm.get.room.playerList do
             if player.isDead then
                 tfm.exec.respawnPlayer(name)
@@ -138,6 +139,9 @@ function eventNewGame()
     lavay = 407
     killzone = 434
     rounds = rounds + 1
+    for name , player in next, tfm.get.room.playerList do
+        tfm.exec.respawnPlayer(name)
+    end
     if rounds == 7 then
         rounds = 0
         tfm.exec.chatMessage(Sentences[math.random(#Sentences)])
