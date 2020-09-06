@@ -138,8 +138,8 @@ function eventNewGame()
         tfm.exec.chatMessage(Sentences[math.random(#Sentences)])
     end
     for name, player in next, players do
-		players[name].hasMeep = false
-	end
+        players[name].hasMeep = false
+    end
     local author = tfm.get.room.xmlMapInfo.author
     local mapCode = tfm.get.room.xmlMapInfo.mapCode
     tfm.exec.setUIMapName(""..author.." - "..mapCode.. "<g> | </g> " .. "<n>Difficulty :</n>" .. " " .. maps[mapIndx].difficulty .. "<g> | </g> " .. "<n>Category : " .. " " .. maps[mapIndx].category)
