@@ -54,6 +54,7 @@ admins = {["Aron#6810"] = true}
 mapper = {[""] = true}
 players = {}
 Sentences = {"<fc>[Lavarun] : </fc><j> write !menu to open the menu !","<fc>[Lavarun] : </fc><j> You can write !points to see your points !","<fc>[Lavarun] : </fc><j> You can use flying power when you have 10 points"}
+date = false
 local mapIndex = 0
 local images = {}
 function ui.addImage(id, imageName, target, x, y, playerTarget)
@@ -121,6 +122,9 @@ function eventLoop(past,left)
             tfm.exec.killPlayer(n)
         end
     end
+    if date == true then
+        ui.addTextArea(9, "<font size='43'><b>" .. os.date("%H") .. ":" .. os.date("%M"), name, 308, 116, 147, 89, 0x000000, 0x000000, 1, true)
+    end
 end
 
 rounds = 0
@@ -134,8 +138,8 @@ function eventNewGame()
         tfm.exec.chatMessage(Sentences[math.random(#Sentences)])
     end
     for name, player in next, players do
-        players[name].hasMeep = false
-    end
+		players[name].hasMeep = false
+	end
     local author = tfm.get.room.xmlMapInfo.author
     local mapCode = tfm.get.room.xmlMapInfo.mapCode
     tfm.exec.setUIMapName(""..author.." - "..mapCode.. "<g> | </g> " .. "<n>Difficulty :</n>" .. " " .. maps[mapIndx].difficulty .. "<g> | </g> " .. "<n>Category : " .. " " .. maps[mapIndx].category)
@@ -200,8 +204,6 @@ function eventKeyboard(name,key,down,x,y)
                 tfm.exec.setPlayerScore(name,players[name].score)
             end
         end
-    elseif key == 40 then
-        tfm.exec.addShamanObject(24,x,y+12,45,50,-20,false)
     end
 end
 
@@ -246,6 +248,7 @@ function eventChatCommand(name,command)
         end
     end
     if command == "menu" then
+        date = true
         for _,remove_ui in next,{5,6,7,8,9} do
             ui.removeTextArea(remove_ui,name)
         end
@@ -319,11 +322,13 @@ end
 
 function eventTextAreaCallback(id,name,callback)
     if callback == "close_menu" then
+        date = false
         ui.removeImage(1,name)
         for _,menu_bar in next,{0,1,2,3,4,7,8,9} do
             ui.removeTextArea(menu_bar,name)
         end
     elseif callback == "powers" then
+        date = false
         ui.addImage(1,"17455b29524.png",":1",143,65,name) -- powers image
         ui.removeTextArea(9,name) -- explosion power
         ui.removeTextArea(7,name)
@@ -342,6 +347,7 @@ function eventTextAreaCallback(id,name,callback)
             ui.addTextArea(2, "<font size='14'><b> Meep power ! - Status : <vp>Press Space", name, 238, 246, 360, 29, 0x000000, 0x000000, 1, true)
         end
     elseif callback == "page2" then
+        date = false
         for _,desc in next,{0,2} do
             ui.removeTextArea(desc,name)
         end
@@ -361,6 +367,7 @@ function eventTextAreaCallback(id,name,callback)
             ui.addTextArea(8, "<font size='14'><b> Cheese power ! - Status : <vp>Press E", name, 238, 246, 360, 29, 0x000000, 0x000000, 1, true)
         end
     elseif callback == "page3" then
+        date = false
         for _,desc_page2 in next,{7,8,1} do
             ui.removeTextArea(desc_page2,name)
         end
@@ -374,18 +381,21 @@ function eventTextAreaCallback(id,name,callback)
             ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='14'> - Status : <vp>Press B", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
         end
     elseif callback == "close" then
+        date = false
         for _,every_uis in next,{0,1,2,3,4,5,6,7,8,9} do
             ui.removeTextArea(every_uis,name)
         end
         ui.removeImage(1,name)
     elseif callback == "help" then
-        for _,re in next,{0,3,4} do
+        date = false
+        for _,re in next,{0,3,4,9} do
             ui.removeTextArea(re,name)
         end
         ui.addImage(1,"1745ad5c8be.png",":1",143,65,name)
         ui.addTextArea(1, tran(name,"help"), name, 168, 83, 489, 259, 0x000000, 0x000000, 1, true)
         ui.addTextArea(2, "<a href='event:close'>                                                                  \n                                        ", name, 672, 72, 52, 49, 0x000000, 0x000000, 1, true)
     elseif callback == "commands" then
+        date = false
         for _,re_commands in next,{0,4,5,6,7,8,9} do
             ui.removeTextArea(re_commands,name)
         end
