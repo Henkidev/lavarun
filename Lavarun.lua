@@ -188,12 +188,8 @@ function eventKeyboard(name,key,down,x,y)
         end
     elseif key == 71 then -- G
         if players[name].score >= 20 then
-            for name , player in next, tfm.get.room.playerList do
-                if player.isFacingRight then
-                    tfm.exec.movePlayer(name, 0, 0, false,player.isFacingRight and 80 or -80, 0, false)
-                end
-            end
-                tfm.exec.displayParticle(13,x-10,y,0,0,0,0,nil)
+            tfm.exec.movePlayer(name, 0, 0, false,player.isFacingRight and 80 or -80, 0, false)
+            tfm.exec.displayParticle(13,x-10,y,0,0,0,0,nil)
             if players[name] and players[name].score then
                 players[name].score = players[name].score - 20
                 tfm.exec.setPlayerScore(name,players[name].score)
