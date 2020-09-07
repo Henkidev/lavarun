@@ -188,7 +188,7 @@ function eventKeyboard(name,key,down,x,y)
         end
     elseif key == 71 then -- G
         if players[name].score >= 20 then
-            tfm.exec.movePlayer(name, 0, 0, false,player.isFacingRight and 80 or -80, 0, false)
+            tfm.exec.movePlayer(name, 0, 0, false,tfm.get.room.playerList[name].isFacingRight and 80 or -80, 0, false)
             tfm.exec.displayParticle(13,x-10,y,0,0,0,0,nil)
             if players[name] and players[name].score then
                 players[name].score = players[name].score - 20
@@ -269,7 +269,7 @@ function eventChatCommand(name,command)
         ui.addTextArea(4, "<a href='event:close_menu'>                                                          \n                                                       ", name, 461, 39, 56, 48, 0x000000, 0x000000, 1, true)
         ui.addTextArea(9, "<font size='43'><b>" .. os.date("%H") .. ":" .. os.date("%M"), name , 308, 116, 147, 89, 0x000000, 0x000000, 1, true)
     elseif command == "staff" then
-        tfm.exec.chatMessage("<v> Staff List : </v>\n<ch>«Developer»</ch><font color='#CD0000'> «Mapper» </font> <v> Aron#6810 </v>\n<bv>«Hoster»</bv><font color='#CD0000'> «Mapper» </font> <v> King_seniru#5890 </v> ")
+        tfm.exec.chatMessage("<v> Staff List : </v>\n<ch>«Developer»</ch><font color='#CD0000'> «Mapper» </font> <v> Aron#6810 </v>\n<bv>«Hoster»</bv><font color='#CD0000'> «Mapper» </font> <v> King_seniru#5890 </v>",name)
     elseif command == "points" then
         if players[name] then
             tfm.exec.chatMessage("<fc>[Module] : </fc><n> You have : </n><fc>" .. players[name].score .. " " .. "points !",name)
