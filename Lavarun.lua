@@ -50,7 +50,7 @@ translation = {
         close_button = "<a href='event:closeprofile'><p align='center'><font size='16'><r><b> [اغلاق]",
     }
 }
-admins = {["Aron#6810"] = true , ["Aronmaps#5892"] = true}
+admins = {["Aron#6810"] = true , ["Aronmaps#5892"] = true , ["King_seniru#5890"] = true}
 mapper = {[""] = true}
 players = {}
 Sentences = {"<fc>[Lavarun] : </fc><j> write !menu to open the menu !","<fc>[Lavarun] : </fc><j> You can write !points to see your points !","<fc>[Lavarun] : </fc><j> You can use flying power when you have 10 points"}
@@ -380,7 +380,7 @@ function eventTextAreaCallback(id,name,callback)
         ui.addTextArea(4, "<p align='center'><font size='17'><b> Powers shop", name, 321, 88, 148, 28, 0x000000, 0x000000, 1, true)
         ui.addTextArea(5, "<a href='event:close'>                                            \n                                       ", name, 619, 77, 66, 56, 0x000000, 0x000000, 1, true)
         ui.addTextArea(8, "<a href='event:page2'>                                                                    \n                                    ", name, 167, 319, 65, 31, 0x000000, 0x000000, 1, true)
-        ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='14'> - Status : <r>You can't use it", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
+        ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='11'> - Status : <r>You can't use it", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
         if players[name].score >= 40 then
             ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='14'> - Status : <vp>Press B", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
         end
