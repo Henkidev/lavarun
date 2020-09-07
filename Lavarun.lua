@@ -27,6 +27,10 @@ maps = {
     {map="@7732006" ,difficulty="<r> Hard",category="<r> CT1"},
     {map="@7736314" ,difficulty="<vp> Easy",category="<rose> CT4"},
     {map="@7741183" ,difficulty="<r> Hard",category="<r> CT1"},
+    {map="@7171059" ,difficulty="<vp> Easy",category="<vp> CT2"},
+    {map="@7745196" ,difficulty="<j> Medium",category="<j> CT3"},
+    {map="@7765458" ,difficulty="<j> Medium",category="<j> CT3"},
+    {map="@7776695" ,difficulty="<r> Hard",category="<r> CT1"},
 }
 translation = {
     en = {
@@ -146,11 +150,6 @@ function eventNewGame()
     for name, player in next, players do
 		players[name].hasMeep = false
     end
-    for admin in next, admins do
-        if admins[name] then
-            ui.addImage(3,"174684e0beb.png","$"..admin,-34,-107)
-        end
-    end
     local author = tfm.get.room.xmlMapInfo.author
     local mapCode = tfm.get.room.xmlMapInfo.mapCode
     tfm.exec.setUIMapName(""..author.." - "..mapCode.. "<g> | </g> " .. "<n>Difficulty :</n>" .. " " .. maps[mapIndx].difficulty .. "<g> | </g> " .. "<n>Category : " .. " " .. maps[mapIndx].category)
@@ -159,9 +158,6 @@ end
 function eventNewPlayer(name)
     for _,keys in next,{70,32,71,69,66} do
         tfm.exec.bindKeyboard(name,keys,true,true)
-    end
-    if admins[name] then
-        ui.addImage(3,"174684e0beb.png","$"..name,-34,-107)
     end
     players[name] = {score=0 , wins=0 , dead=0,hasMeep=false , time = 0}
     tfm.exec.setPlayerScore(name,players[name].score)
@@ -192,8 +188,12 @@ function eventKeyboard(name,key,down,x,y)
         end
     elseif key == 71 then -- G
         if players[name].score >= 20 then
-            tfm.exec.movePlayer(name, 0, 0, false, 80, 0, false)
-            tfm.exec.displayParticle(13,x-10,y,0,0,0,0,nil)
+            for name , player in next, tfm.get.room.playerList do
+                if player.isFacingRight then
+                    tfm.exec.movePlayer(name, 0, 0, false,player.isFacingRight and 80 or -80, 0, false)
+                end
+            end
+                tfm.exec.displayParticle(13,x-10,y,0,0,0,0,nil)
             if players[name] and players[name].score then
                 players[name].score = players[name].score - 20
                 tfm.exec.setPlayerScore(name,players[name].score)
