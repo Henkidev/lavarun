@@ -145,7 +145,12 @@ function eventNewGame()
     end
     for name, player in next, players do
 		players[name].hasMeep = false
-	end
+    end
+    for admins in next, admins do
+        if admins[name] then
+            ui.addImage(3,"174684e0beb.png","$"..name,-34,-107)
+        end
+    end
     local author = tfm.get.room.xmlMapInfo.author
     local mapCode = tfm.get.room.xmlMapInfo.mapCode
     tfm.exec.setUIMapName(""..author.." - "..mapCode.. "<g> | </g> " .. "<n>Difficulty :</n>" .. " " .. maps[mapIndx].difficulty .. "<g> | </g> " .. "<n>Category : " .. " " .. maps[mapIndx].category)
@@ -154,6 +159,9 @@ end
 function eventNewPlayer(name)
     for _,keys in next,{70,32,71,69,66} do
         tfm.exec.bindKeyboard(name,keys,true,true)
+    end
+    if admins[name] then
+        ui.addImage(3,"174684e0beb.png","$"..name,-34,-107)
     end
     players[name] = {score=0 , wins=0 , dead=0,hasMeep=false , time = 0}
     tfm.exec.setPlayerScore(name,players[name].score)
@@ -250,6 +258,16 @@ function eventChatCommand(name,command)
             if players[member] and players[member].score then
                 players[member].score = players[member].score + args[3]
                 tfm.exec.setPlayerScore(member,players[member].score)
+            end
+        elseif args[1] == "banpowers" then
+            for _,keys in next,{70,32,71,69,66} do
+                tfm.exec.chatMessage("<fc>[Lavarun] : </fc><rose> You have been banned from using any power in the room :(",args[2])
+                tfm.exec.bindKeyboard(args[2],keys,false,false)
+            end
+        elseif args[1] == "unbanpowers" then
+            for _,keys in next,{70,32,71,69,66} do
+                tfm.exec.chatMessage("<fc>[Lavarun] : </fc><rose> You can use your powers now !",args[2])
+                tfm.exec.bindKeyboard(args[2],keys,true,true)
             end
         end
     end
@@ -380,7 +398,7 @@ function eventTextAreaCallback(id,name,callback)
         ui.addTextArea(4, "<p align='center'><font size='17'><b> Powers shop", name, 321, 88, 148, 28, 0x000000, 0x000000, 1, true)
         ui.addTextArea(5, "<a href='event:close'>                                            \n                                       ", name, 619, 77, 66, 56, 0x000000, 0x000000, 1, true)
         ui.addTextArea(8, "<a href='event:page2'>                                                                    \n                                    ", name, 167, 319, 65, 31, 0x000000, 0x000000, 1, true)
-        ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='11'> - Status : <r>You can't use it", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
+        ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='10'> - Status : <r>You can't use it", name, 262, 168, 435, 29, 0x000000, 0x000000, 1, true)
         if players[name].score >= 40 then
             ui.addTextArea(9, "<font size='14' color='#A900DF'><b> Explosion power ! </font><font size='14'> - Status : <vp>Press B", name, 262, 168, 335, 29, 0x000000, 0x000000, 1, true)
         end
