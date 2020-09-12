@@ -60,6 +60,7 @@ players = {}
 Sentences = {"<fc>[Lavarun] : </fc><j> write !menu to open the menu !","<fc>[Lavarun] : </fc><j> You can write !points to see your points !","<fc>[Lavarun] : </fc><j> You can use flying power when you have 10 points"}
 date = false
 lava = false
+winner = true
 local mapIndex = 0
 local images = {}
 function ui.addImage(id, imageName, target, x, y, playerTarget)
@@ -136,6 +137,8 @@ rounds = 0
 lavay = 407
 killzone = 434
 function eventNewGame()
+    winner = true
+    won_time = 0
     star_lava = 0
     lavay = 407
     killzone = 434
@@ -288,8 +291,20 @@ function eventChatCommand(name,command)
         ui.addTextArea(8, "<a href='event:close'>                                            \n                                           ", name, 494, 52, 55, 50, 0x000000, 0x000000, 1, true)
     end
 end
-
+won_time = 0
 function eventPlayerWon(name)
+    won_time = won_time + 1
+    if winner == true then
+        if won_time == 1 then
+            tfm.exec.chatMessage("<j> The player </j><v>"..name.."</v><j> is the winner ! </j><fc>#01</fc>",nil)
+            print("<j> The player </j><v>"..name.."</v><j> is the winner ! </j><fc>#01</fc>")
+            if players[name] and players[name].score then
+                players[name].score = players[name].score + 6 - 4
+                tfm.exec.setPlayerScore(name,players[name].score)
+            end
+            winner = false
+        end
+    end
     local alive = 0
     for name, player in next, tfm.get.room.playerList do
         if not player.isDead then
