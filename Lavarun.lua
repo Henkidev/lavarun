@@ -31,6 +31,8 @@ maps = {
     {map="@7745196" ,difficulty="<j> Medium",category="<j> CT3"},
     {map="@7765458" ,difficulty="<j> Medium",category="<j> CT3"},
     {map="@7776695" ,difficulty="<r> Hard",category="<r> CT1"},
+    {map="@7781111" ,difficulty="<vp> Easy",category="<cs> CT6"},
+    {map="@7781097" ,difficulty="<j> Medium",category="<j> CT3"},
 }
 translation = {
     en = {
